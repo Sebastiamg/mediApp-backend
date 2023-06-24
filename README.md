@@ -27,10 +27,15 @@ npm run dev
 ```
 
 
-# Endpoints
+# Endpoints independientes
 ## Base: ``` http://localhost:3000/api/v1/ ```
 ### usuario: ``` http://localhost:3000/api/v1/user/ ```
 ### rol: ``` http://localhost:3000/api/v1/role/ ```
+
+# Endpoints para autentificación
+### register: ``` http://localhost:3000/api/v1/auth/register ```
+### login: ``` http://localhost:3000/api/v1/auth/login ```
+
 
 <br/>
 
