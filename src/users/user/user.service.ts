@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { genSalt, hash } from 'bcrypt';
+import { validate } from 'uuid';
 
 import { ExeptionLogger } from 'src/common/exceptionLogger';
 import { PorfileService } from '../profile/porfile.service';
@@ -27,7 +28,7 @@ export class UserService {
     // password hashing
     const hashedPasswod = await hash(password, await genSalt(8));
 
-    const user: UserDto = this.userRepository.create({
+    const user: User = this.userRepository.create({
       ...userInfo,
       password: hashedPasswod,
       profile: await this.profileService.createProfile(profile && profile),
@@ -55,13 +56,13 @@ export class UserService {
 
   async findOneUser(param: string) {
     let user: User;
-    if (!isNaN(Number(param))) {
+    if (validate(param)) {
       user = await this.userRepository.findOneBy({ id: param });
     } else {
       user = await this.userRepository.findOneBy({ email: param });
     }
 
-    if (!user) throw new NotFoundException(`User with id: ${param} not found`);
+    if (!user) throw new NotFoundException(`User not found: [ ${param} ]...😥`);
 
     return user;
   }

@@ -1,9 +1,11 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import {
   RegisterCredentialsDto,
   LogInCredentialDto,
 } from 'src/auth/dto/user-credentials.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { JwtAuthGuard } from './guard/jwt.auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -17,5 +19,14 @@ export class AuthController {
   @Post('register')
   register(@Body() userCredentialsDto: RegisterCredentialsDto) {
     return this.authService.SingIn(userCredentialsDto);
+  }
+
+  @UseGuards(AuthGuard())
+  @Get('test')
+  testRoute() {
+    return {
+      message: 'test route',
+      guard: 'guardx df',
+    };
   }
 }
