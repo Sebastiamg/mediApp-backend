@@ -26,6 +26,7 @@ export class AuthService {
       );
 
     const { email, id } = user;
+
     return {
       ...user,
       token: this.generateJWT({ id, email }),

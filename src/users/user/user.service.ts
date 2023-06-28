@@ -92,6 +92,9 @@ export class UserService {
       }
     } else {
       user = await this.userRepository.findOneBy({ email: param });
+      if (!user) {
+        user = await this.medicRepositoty.findOneBy({ email: param });
+      }
     }
 
     if (!user) throw new NotFoundException(`User not found: [ ${param} ]...😥`);
