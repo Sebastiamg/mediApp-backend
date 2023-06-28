@@ -57,4 +57,9 @@ export class UserController {
   getAllMedics(@Query() paginationDto?: PaginationDto) {
     return this.userService.findAllUsers(paginationDto, true);
   }
+
+  @Get('medic/get/:id')
+  getOneMedic(@Param('id') id: string) {
+    return this.userService.findOneUser(id, true);
+  }
 }

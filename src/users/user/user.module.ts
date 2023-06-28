@@ -8,9 +8,9 @@ import { RoleModule } from '../role/role.module';
 import { User, Medic } from '../';
 
 @Module({
+  imports: [TypeOrmModule.forFeature([User, Medic]), PorfileModule, RoleModule],
   controllers: [UserController],
   providers: [UserService],
-  imports: [TypeOrmModule.forFeature([User, Medic]), PorfileModule, RoleModule],
   exports: [UserService],
 })
 export class UserModule {}

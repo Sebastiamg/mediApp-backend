@@ -1,10 +1,10 @@
-import { User } from 'src/users';
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Medic, User } from 'src/users';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Appointment {
   @PrimaryGeneratedColumn()
-  id: string;
+  id: number;
 
   @Column({ type: 'timestamp' })
   date: Date;
@@ -13,13 +13,14 @@ export class Appointment {
   hour: string;
 
   @Column()
-  status: boolean;
+  status: string;
 
   // relation
-  // Medic
-  @OneToOne(() => User)
-  medic: User;
-
   // User
+  @ManyToOne(() => User, (user) => user.appointment)
   user: User;
+
+  // Medic
+  @ManyToOne(() => Medic, (medic) => medic.appointment)
+  medic: Medic;
 }

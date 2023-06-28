@@ -82,10 +82,14 @@ export class UserService {
     return users;
   }
 
-  async findOneUser(param: string) {
+  async findOneUser(param: string, isMedic = false) {
     let user: User;
     if (validate(param)) {
-      user = await this.userRepository.findOneBy({ id: param });
+      if (isMedic) {
+        user = await this.medicRepositoty.findOneBy({ id: param });
+      } else {
+        user = await this.userRepository.findOneBy({ id: param });
+      }
     } else {
       user = await this.userRepository.findOneBy({ email: param });
     }

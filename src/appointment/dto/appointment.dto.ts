@@ -1,4 +1,4 @@
-import { IsBoolean, IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class AppointmentDto {
   @IsString()
@@ -9,9 +9,9 @@ export class AppointmentDto {
   @IsNotEmpty()
   hour: string;
 
-  @IsBoolean()
+  @IsString()
   @IsNotEmpty()
-  status: boolean;
+  status: string;
 
   // relation
   @IsString()
