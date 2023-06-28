@@ -45,6 +45,8 @@ export class User {
   @JoinColumn()
   role: Role;
 
+  //appointment
+
   @BeforeInsert()
   UpperName() {
     this.firstname = this.firstname
@@ -52,4 +54,12 @@ export class User {
       .toUpperCase()
       .concat(this.firstname.slice(1));
   }
+}
+
+@Entity()
+export class Medic extends User {
+  // Medic atribte
+  @Column({ type: 'text', nullable: true })
+  speciality?: string;
+  //appointment
 }

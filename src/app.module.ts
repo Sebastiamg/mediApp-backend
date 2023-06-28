@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataBaseSourceConfig } from './config/db.config';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { AppointmentModule } from './appointment/appointment.module';
 
 @Global()
 @Module({
@@ -18,6 +19,7 @@ import { AuthModule } from './auth/auth.module';
     TypeOrmModule.forRoot(DataBaseSourceConfig),
     UsersModule,
     AuthModule,
+    AppointmentModule,
   ],
   controllers: [],
 })

@@ -29,8 +29,9 @@ npm run dev
 
 # Endpoints independientes
 ## Base: ``` http://localhost:3000/api/v1/ ```
-### usuario: ``` http://localhost:3000/api/v1/user/ ```
 ### rol: ``` http://localhost:3000/api/v1/role/ ```
+### usuario: ``` http://localhost:3000/api/v1/user/ ```
+### médicos: ``` http://localhost:3000/api/v1/user/medic/{httpMehtods} ```
 
 # Endpoints para autentificación
 ### register: ``` http://localhost:3000/api/v1/auth/register ```
@@ -40,7 +41,7 @@ npm run dev
 <br/>
 
 ## Metodo usados
-### Obtener - ``` GET ```
-### Crear - ``` POST ```
-### Editar - ``` PATCH ```
-### Eliminar - ``` DELETE ```
+### Obtener -     ``` GET ```
+### Crear -       ``` POST ```
+### Editar -      ``` PATCH ```
+### Eliminar -    ``` DELETE ```

@@ -41,3 +41,9 @@ export class UserDto {
 }
 
 export class UpdateUserDto extends PartialType(UserDto) {}
+
+export class MedicDto extends UserDto {
+  @IsString()
+  @IsNotEmpty()
+  speciality: string;
+}

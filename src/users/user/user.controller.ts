@@ -10,7 +10,7 @@ import {
   ParseUUIDPipe,
 } from '@nestjs/common';
 
-import { UserDto, UpdateUserDto } from '../';
+import { UserDto, UpdateUserDto, MedicDto } from '../';
 
 import { UserService } from './user.service';
 import { PaginationDto } from 'src/common/pagination.dto';
@@ -45,5 +45,16 @@ export class UserController {
   @Delete(':id')
   remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.userService.removeUser(id);
+  }
+
+  // medic Controllers
+  @Post('medic/post')
+  createMedic(@Body() medicDto: MedicDto) {
+    return this.userService.createUser(medicDto, true);
+  }
+
+  @Get('medic/get')
+  getAllMedics(@Query() paginationDto?: PaginationDto) {
+    return this.userService.findAllUsers(paginationDto, true);
   }
 }

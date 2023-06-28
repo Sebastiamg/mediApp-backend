@@ -8,7 +8,14 @@ import { ExeptionLogger } from 'src/common/exceptionLogger';
 import { PorfileService } from '../profile/porfile.service';
 import { PaginationDto } from 'src/common/pagination.dto';
 
-import { RegisterCredentialsDto, UpdateUserDto, User, UserDto } from '../';
+import {
+  Medic,
+  MedicDto,
+  RegisterCredentialsDto,
+  UpdateUserDto,
+  User,
+  UserDto,
+} from '../';
 import { RoleService } from '../role/role.service';
 
 @Injectable()
@@ -17,14 +24,20 @@ export class UserService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
 
+    @InjectRepository(Medic)
+    private readonly medicRepositoty: Repository<Medic>,
+
     private readonly profileService: PorfileService,
     private readonly roleService: RoleService,
   ) {}
 
   // createa user
-  async createUser(payload: UserDto | RegisterCredentialsDto) {
-    console.log(payload);
-    const { password, profile, role, ...userInfo } = payload as UserDto;
+  async createUser(
+    payload: UserDto | RegisterCredentialsDto | MedicDto,
+    isMedic = false,
+  ) {
+    const { password, profile, role, speciality, ...userInfo } =
+      payload as MedicDto;
     // password hashing
     const hashedPasswod = await hash(password, await genSalt(8));
 
@@ -35,8 +48,16 @@ export class UserService {
       role: await this.roleService.findOneRole(role ? role.name : 'pacient'),
     });
 
+    console.log(user);
+
     try {
-      await this.userRepository.save(user);
+      if (isMedic) {
+        (user as Medic).speciality = speciality;
+        await this.medicRepositoty.save(user);
+      } else {
+        await this.userRepository.save(user);
+      }
+
       return user;
     } catch (error) {
       this.exeptionLogger.logError(error);
@@ -45,12 +66,19 @@ export class UserService {
   }
 
   // find all users
-  async findAllUsers({ limit = 10, offset = 0 }: PaginationDto) {
-    const users = this.userRepository.find({
-      skip: offset,
-      take: limit,
-    });
-
+  async findAllUsers(
+    { limit = 10, offset = 0 }: PaginationDto,
+    isMedic = false,
+  ) {
+    const users = !isMedic
+      ? this.userRepository.find({
+          skip: offset,
+          take: limit,
+        })
+      : this.medicRepositoty.find({
+          skip: offset,
+          take: limit,
+        });
     return users;
   }
 
@@ -94,10 +122,14 @@ export class UserService {
   }
 
   // delete user
-  async removeUser(id: string) {
+  async removeUser(id: string, isMedic = false) {
     const user = await this.findOneUser(id);
 
-    await this.userRepository.remove(user);
+    if (isMedic) {
+      await this.medicRepositoty.remove(user);
+    } else {
+      await this.userRepository.remove(user);
+    }
     await this.profileService.removeProfile(user.profile.id);
 
     return true;
