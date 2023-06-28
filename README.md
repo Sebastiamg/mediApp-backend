@@ -31,7 +31,8 @@ npm run dev
 ## Base: ``` http://localhost:3000/api/v1/ ```
 ### rol: ``` http://localhost:3000/api/v1/role/ ```
 ### usuario: ``` http://localhost:3000/api/v1/user/ ```
-### médicos: ``` http://localhost:3000/api/v1/user/medic/{httpMehtods} ```
+### médicos: ``` http://localhost:3000/api/v1/user/medic/{httpMehtod}/?:... ```
+### citas: ``` http://localhost:3000/api/v1/appointment/ ```
 
 # Endpoints para autentificación
 ### register: ``` http://localhost:3000/api/v1/auth/register ```

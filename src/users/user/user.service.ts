@@ -100,25 +100,50 @@ export class UserService {
   }
 
   // update user - always sent role
-  async updateUser(id: string, { role, profile, ...userInfo }: UpdateUserDto) {
-    const user = await this.userRepository.preload({
-      id,
-      ...userInfo,
-      role: role ? await this.roleService.findOneRole(role.name) : undefined,
-      profile:
-        profile &&
-        (await this.profileService.updateProfile(
-          (
-            await this.findOneUser(id)
-          ).profile.id,
-          profile,
-        )),
-    });
+  async updateUser(
+    id: string,
+    { role, profile, ...userInfo }: UpdateUserDto,
+    isMedic = false,
+  ) {
+    let user;
+    if (!isMedic) {
+      user = await this.userRepository.preload({
+        id,
+        ...userInfo,
+        role: role ? await this.roleService.findOneRole(role.name) : undefined,
+        profile:
+          profile &&
+          (await this.profileService.updateProfile(
+            (
+              await this.findOneUser(id)
+            ).profile.id,
+            profile,
+          )),
+      });
+    } else {
+      user = await this.medicRepositoty.preload({
+        id,
+        ...userInfo,
+        role: role ? await this.roleService.findOneRole(role.name) : undefined,
+        profile:
+          profile &&
+          (await this.profileService.updateProfile(
+            (
+              await this.findOneUser(id)
+            ).profile.id,
+            profile,
+          )),
+      });
+    }
 
     if (!user) throw new NotFoundException(`User with id: [${id}] not fond`);
 
     try {
-      await this.userRepository.save(user);
+      if (isMedic) {
+        await this.medicRepositoty.save(user);
+      } else {
+        await this.userRepository.save(user);
+      }
       return user;
     } catch (error) {
       this.exeptionLogger.logError(error);

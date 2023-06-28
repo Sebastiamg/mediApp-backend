@@ -14,6 +14,7 @@ import { UserDto, UpdateUserDto, MedicDto } from '../';
 
 import { UserService } from './user.service';
 import { PaginationDto } from 'src/common/pagination.dto';
+import { UpdateMedicDto } from './dto/user.dto';
 
 @Controller('user')
 export class UserController {
@@ -61,5 +62,13 @@ export class UserController {
   @Get('medic/get/:id')
   getOneMedic(@Param('id') id: string) {
     return this.userService.findOneUser(id, true);
+  }
+
+  @Patch('medic/patch/:id')
+  updateMedic(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updateMedicDto: UpdateMedicDto,
+  ) {
+    return this.userService.updateUser(id, updateMedicDto, true);
   }
 }
