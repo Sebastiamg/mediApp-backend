@@ -84,11 +84,16 @@ export class UserService {
 
   async findOneUser(param: string, isMedic = false) {
     let user: User;
+
     if (validate(param)) {
+      console.log(isMedic);
       if (isMedic) {
         user = await this.medicRepositoty.findOneBy({ id: param });
       } else {
         user = await this.userRepository.findOneBy({ id: param });
+        if (!user) {
+          user = await this.medicRepositoty.findOneBy({ id: param });
+        }
       }
     } else {
       user = await this.userRepository.findOneBy({ email: param });
@@ -155,6 +160,7 @@ export class UserService {
 
   // delete user
   async removeUser(id: string, isMedic = false) {
+    console.log(id, isMedic);
     const user = await this.findOneUser(id);
 
     if (isMedic) {

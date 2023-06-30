@@ -71,4 +71,9 @@ export class UserController {
   ) {
     return this.userService.updateUser(id, updateMedicDto, true);
   }
+
+  @Delete('medic/delete/:id')
+  deleteMedic(@Param('id', ParseUUIDPipe) id: string) {
+    return this.userService.removeUser(id, true);
+  }
 }

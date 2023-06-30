@@ -1,21 +1,21 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { IsOptional, IsString, IsNumber, IsPositive } from 'class-validator';
+import { IsOptional, IsString, IsNumber, Min } from 'class-validator';
 
 import { BaseDto } from 'src/common/base.dto';
 
 export class ProfileDto extends BaseDto {
   @IsOptional()
   @IsString()
-  lastname?: string;
+  lastname?: string | null;
 
   @IsOptional()
   @IsNumber()
-  @IsPositive()
+  @Min(0)
   idCard?: number;
 
   @IsOptional()
   @IsNumber()
-  @IsPositive()
+  @Min(0)
   phone?: number;
 }
 
