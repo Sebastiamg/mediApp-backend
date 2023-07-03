@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsIn, IsNotEmpty, IsString } from 'class-validator';
 
 export class AppointmentDto {
   @IsString()
@@ -11,6 +11,7 @@ export class AppointmentDto {
 
   @IsString()
   @IsNotEmpty()
+  @IsIn(['pending', 'attended', 'lost'])
   status: string;
 
   // relation
