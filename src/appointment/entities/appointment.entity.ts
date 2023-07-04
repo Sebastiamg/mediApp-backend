@@ -21,6 +21,8 @@ export class Appointment {
   user: User;
 
   // Medic
-  @ManyToOne(() => Medic, (medic) => medic.appointment)
+  @ManyToOne(() => Medic, (medic) => medic.appointment, {
+    onDelete: 'CASCADE',
+  })
   medic: Medic;
 }
