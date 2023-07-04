@@ -1,4 +1,5 @@
-import { IsIn, IsNotEmpty, IsString } from 'class-validator';
+import { PartialType } from '@nestjs/mapped-types';
+import { IsIn, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class AppointmentDto {
   @IsString()
@@ -23,4 +24,19 @@ export class AppointmentDto {
   @IsString()
   @IsNotEmpty()
   user: string;
+}
+
+export class UpdateAppointmentDto {
+  @IsString()
+  @IsOptional()
+  date?: string;
+
+  @IsString()
+  @IsOptional()
+  hour?: string;
+
+  @IsString()
+  @IsOptional()
+  @IsIn(['pending', 'attended', 'lost'])
+  status?: string;
 }

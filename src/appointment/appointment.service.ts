@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { AppointmentDto } from './dto/appointment.dto';
+import { AppointmentDto, UpdateAppointmentDto } from './dto/appointment.dto';
 import { UserService } from 'src/users/user/user.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Appointment } from './entities/appointment.entity';
@@ -48,8 +48,20 @@ export class AppointmentService {
     return appointment;
   }
 
-  update(id: number, updateAppointmentDto: any) {
-    return `This action updates a #${id} appointment`;
+  async update(id: number, updateAppointmentDto: UpdateAppointmentDto) {
+    const appointment = await this.appointMentRepository.preload({
+      id,
+      ...updateAppointmentDto,
+    });
+
+    try {
+      await this.appointMentRepository.save(appointment);
+      return appointment;
+    } catch (error) {
+      this.exeptionLogger.logError(error);
+    }
+
+    return;
   }
 
   async remove(id: number) {

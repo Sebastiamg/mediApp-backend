@@ -6,9 +6,10 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { AppointmentService } from './appointment.service';
-import { AppointmentDto } from './dto/appointment.dto';
+import { AppointmentDto, UpdateAppointmentDto } from './dto/appointment.dto';
 
 @Controller('appointment')
 export class AppointmentController {
@@ -30,8 +31,11 @@ export class AppointmentController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAppointmentDto: any) {
-    return this.appointmentService.update(+id, updateAppointmentDto);
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateAppointmentDto: UpdateAppointmentDto,
+  ) {
+    return this.appointmentService.update(id, updateAppointmentDto);
   }
 
   @Delete(':id')
