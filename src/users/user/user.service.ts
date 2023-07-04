@@ -48,8 +48,6 @@ export class UserService {
       role: await this.roleService.findOneRole(role ? role.name : 'pacient'),
     });
 
-    console.log(user);
-
     try {
       if (isMedic) {
         (user as Medic).speciality = speciality;
@@ -86,7 +84,6 @@ export class UserService {
     let user: User;
 
     if (validate(param)) {
-      console.log(isMedic);
       if (isMedic) {
         user = await this.medicRepositoty.findOneBy({ id: param });
       } else {
@@ -160,7 +157,6 @@ export class UserService {
 
   // delete user
   async removeUser(id: string, isMedic = false) {
-    console.log(id, isMedic);
     const user = await this.findOneUser(id);
 
     if (isMedic) {
